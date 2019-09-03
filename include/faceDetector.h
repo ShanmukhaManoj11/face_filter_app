@@ -9,6 +9,9 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/dnn.hpp>
 
+#include <opencv2/opencv.hpp>
+#include <opencv2/face.hpp>
+
 class FaceDetector{
 private:
   const size_t inWidth;
@@ -21,9 +24,14 @@ private:
   cv::Mat frame;
   std::vector<cv::Rect> faces;
   cv::dnn::Net net;
+  cv::Ptr<cv::face::Facemark> facemark;
+  std::vector<std::vector<cv::Point2f>> facialLandmarks;
+  void drawPolyline(const std::vector<cv::Point2f>& points,const int start,const int end,bool closed);
+  void drawLandmarks(std::vector<cv::Point2f>& landmarks);
 public:
   FaceDetector();
-  void detectFace(cv::Mat& inFrame);
+  void detectFaces(cv::Mat& inFrame);
+  void detectFacialLandmarks();
   std::vector<cv::Rect> getDetectedFaces();
   cv::Mat getProcessedFrame();
 };

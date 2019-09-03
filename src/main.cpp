@@ -1,15 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/dnn.hpp>
-
 #include "faceDetector.h"
 
 int main(int argc,char** argv){
-	std::shared_ptr<FaceDetector> _faceDetector(new FaceDetector());
+	std::shared_ptr<FaceDetector> _faceDetector(new FaceDetector()); //face detector
 	cv::VideoCapture videoHandle;
 	if(argc==1) videoHandle.open(0);
 	else videoHandle.open(argv[1]);
@@ -17,7 +9,8 @@ int main(int argc,char** argv){
 	while(true){
 		videoHandle>>inFrame;
 		if(inFrame.empty()) break;
-		_faceDetector->detectFace(inFrame);
+		_faceDetector->detectFaces(inFrame); //function call to detect faces
+		_faceDetector->detectFacialLandmarks();
 		inFrame=_faceDetector->getProcessedFrame();
 		cv::imshow("Face Detection",inFrame);
 		int k=cv::waitKey(5);
