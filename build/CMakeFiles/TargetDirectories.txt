@@ -1,3 +1,0 @@
-/home/mano/MyStuff/udacity/CppND/CppND-CapstoneProject/FaceFilterApp/build/CMakeFiles/rebuild_cache.dir
-/home/mano/MyStuff/udacity/CppND/CppND-CapstoneProject/FaceFilterApp/build/CMakeFiles/faceDetector.dir
-/home/mano/MyStuff/udacity/CppND/CppND-CapstoneProject/FaceFilterApp/build/CMakeFiles/edit_cache.dir
