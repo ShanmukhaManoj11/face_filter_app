@@ -1,14 +1,5 @@
-#include <iostream>
-#include <string>
-#include <vector>
 #include <math.h>
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/dnn.hpp>
-
-#include <opencv2/opencv.hpp>
-#include <opencv2/face.hpp>
+#include "faceDetector.h"
 
 #include <opencv2/viz/types.hpp>
 #include <opencv2/viz/widgets.hpp>
@@ -20,7 +11,8 @@ int main(int argc,char** argv){
 	cv::viz::WMesh objmesh( cv::viz::Mesh::load(obj) ); //3d object mesh as widget on viz3d window
 
 	cv::VideoCapture videoHandle;
-	videoHandle.open(0);
+	if(argc==1) videoHandle.open(0);
+	else videoHandle.open(argv[1]);
 	int frameWidth=videoHandle.get(cv::CAP_PROP_FRAME_WIDTH);
 	int frameHeight=videoHandle.get(cv::CAP_PROP_FRAME_HEIGHT);
 	cv::Mat frame;
@@ -31,10 +23,17 @@ int main(int argc,char** argv){
 	cv::viz::Viz3d window3d("3d model");
 	window3d.showWidget("object",objmesh);
 	window3d.showWidget("frame",wframe);
+	window3d.setFullScreen(true);
+
+	std::shared_ptr<FaceDetector> _faceDetector(new FaceDetector());
 
 	while(!window3d.wasStopped()){
 		videoHandle>>frame;
 		if(frame.empty()) break;
+		_faceDetector->detectFaces(frame);
+		_faceDetector->detectFacialLandmarks();
+		frame=_faceDetector->getProcessedFrame();
+		
 		wframe.setImage(frame);
 		wframe.setPose(framePose);
 		window3d.spinOnce(1,true);

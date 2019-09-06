@@ -11,6 +11,6 @@ set(FD_SOURCES src/main.cpp src/faceDetector.cpp)
 add_executable(faceDetector ${FD_SOURCES})
 target_link_libraries(faceDetector ${OpenCV_LIBS})
 
-set(3D_SOURCES src/3dLoader.cpp)
+set(3D_SOURCES src/3dLoader.cpp src/faceDetector.cpp)
 add_executable(3dLoader ${3D_SOURCES})
 target_link_libraries(3dLoader ${OpenCV_LIBS})
